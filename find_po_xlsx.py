@@ -1,3 +1,4 @@
+
 import pandas as pd
 import os, sys
 from colorama import init, Fore, Back #字體顏色
@@ -82,8 +83,6 @@ for check in a_xlsx :
 
 
 print('')
-print(Fore.YELLOW +"{:=^100s}".format(""))
-print(Fore.YELLOW +"{:=^100s}".format(""))
 print('')
 
 
@@ -106,6 +105,7 @@ while True:
 	
 	#讀取效果
 	print('')
+	ha = random.choice(conversation)
 	print(ha, end = '')
 	for i in range(10):
 	    print(".",end = '',flush = True)
@@ -135,7 +135,6 @@ while True:
 		final = df_ok[['品項','單價','數量','費用']]
 		print("")
 		print("")
-		print("")
 		print(Fore.CYAN +"{:=^100s}".format(""))
 		print(final.to_string(index=False)) #dataframe 輸出不加索引號
 		print("")
@@ -143,7 +142,6 @@ while True:
 		count = count + 1
 		print("")
 		print("")
-
 	print(Fore.CYAN +"{:=^100s}".format(""))
 	print("")
 	print('在剛剛的超激烈讀取中，在', Fore.GREEN + str(project_dir) ,'資料夾內的', Fore.RED + str(len(all_path)), '個檔案中')
