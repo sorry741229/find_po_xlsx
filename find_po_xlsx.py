@@ -33,18 +33,20 @@ a = os.walk(project_dir)
 
 print('')
 
-print(Fore.GREEN +"{:=^100s}".format("群旭CNC_報價單查詢小幫手"))
+print(Fore.GREEN +"{:=^100s}".format("群旭CNC_報價單查詢小幫手Ver1.1"))
 print('')
 
 print('檔案讀取中', end = '')
-for i in range(5):
+for i in range(6):
     print(".",end = '',flush = True)  #flush - 输出是否被缓存通常决定于 file，但如果 flush 关键字参数为 True，流会被强制刷新
     time.sleep(0.5)
 
 #讀取效果	
 conversation = ['正在執行一秒幾十萬上下的讀取，請稍後','莫急莫慌莫害怕，等等就好了','已經加班在趕了，等等', '痾‧‧‧忘記剛剛找到哪了，重找一下',
-	'檔案有點多，你知道嗎','別看我這樣，我也是操過來的‧‧‧等等好嗎','這個需求不難，很快就', '剛剛好像夢到我找完了', '等等找給你的東西都是血跟淚換來的', 
-	'認真找起來，連我自己都會怕', '快好了，稍等一下','大哥，這也太多了吧','群旭CNC部門是最棒低','終於肯來找我幫忙了喔', '謝謝你的耐心等候']
+	'檔案有點多，你知道嗎','別這樣，大家都是操過來的,等等','這個需求不難，很快就', '剛剛好像夢到我找完了', '等等找出來的東西都是血跟淚換來的', 
+	'認真找起來，連我自己都會怕', '快好了，稍等一下','大哥，你這要找的也太多了吧','群旭CNC部門是最棒低','終於肯來找我幫忙了喔', '謝謝你的耐心等候','想當年找的速度超快，但現在可能要等會',
+	'東西太多翻得有點亂了欸，糟糕','你...是不是在找出口','是不是...報太低了呢','已經開三班幫你找了，等等','是不是又遇到了點麻煩呢','正在從深淵搜尋中','這小Case,真的',
+	'這資料藏得有點深，要花點時間','相信我真的不是很隨便找，真的','已經在找了，別急','正在裝模作樣尋找中','是不是跟著點點點呢','喝個水，等等就好了','正在執行一天大概三下的讀取，慢慢等吧']
 ha = random.choice(conversation)
 
 print('')
@@ -96,10 +98,44 @@ for n in n_xlsx :
 
 
 
+
+
+
+
 #用戶自己輸入搜尋相關字之xlsx檔案
 print('載入完成')
 print('')
+
 while True:
+	ans = '5931'
+	x = 3 #初始機會
+	while x > 0 :
+		x = x -1
+		pwd = input('請輸入登入密碼: ')
+		if pwd == ans:
+			print('')
+			print('')
+			break
+		else:
+			print('密碼錯誤!')
+			if x > 0:
+				print('還有', x,'次機會')
+			else:
+				print('已輸入超過三次，程式結束')
+				print('已輸入超過三次，程式結束')
+				print('')
+				print('')
+				os._exit()
+	break
+
+os.system('cls')
+
+print('')
+print(Fore.GREEN +"{:=^100s}".format("群旭CNC_報價單查詢小幫手Ver1.1"))
+print('登入成功')
+print('')
+while True:
+
 	answer = [] #用戶輸入的關鍵字過濾所有的xlsx後,確認有在xlsx內的清單
 	name = input('請輸入要搜尋的關鍵字(大小寫有別) :')
 	
@@ -107,7 +143,7 @@ while True:
 	print('')
 	ha = random.choice(conversation)
 	print(ha, end = '')
-	for i in range(10):
+	for i in range(16):
 	    print(".",end = '',flush = True)
 	    time.sleep(0.5)
 
@@ -127,8 +163,17 @@ while True:
 		except :
 			pass
 
+
+
+
+
+
+
 	count = 1
 	for ans_info in answer:
+		copy_temp = []
+		copy_xlsx = []
+
 		df_ok = pd.read_excel(ans_info, index_col = 0,skiprows = 11) #sheet_name =None 會變成dic字典
 		df_ok.fillna('',inplace = True)#將nan值取代
 		df_ok.dropna(axis = 0, how = 'all', inplace = True )# 刪除空行
@@ -138,10 +183,18 @@ while True:
 		print(Fore.CYAN +"{:=^100s}".format(""))
 		print(final.to_string(index=False)) #dataframe 輸出不加索引號
 		print("")
-		print('此上是第',Fore.RED + str(count), '張報價單為',Fore.YELLOW + str(ans_info), '的檔案')
+
+		#路徑複製轉換
+		nn = ans_info.replace('//','\\\\')#路徑斜線轉換
+		copy_temp.append(nn)
+		for copy2 in copy_temp:
+			mm = copy2.replace('/','\\') #把路徑斜線轉換
+			copy_xlsx.append(mm)
+		print('此上是第',Fore.RED + str(count), '張報價單為',Fore.YELLOW + str(mm), '的檔案')
 		count = count + 1
 		print("")
-		print("")
+	with open('//192.168.10.61/f2-cnc報表/other/po_log.csv', 'w') as f:
+		f.write(name + '\n')
 	print(Fore.CYAN +"{:=^100s}".format(""))
 	print("")
 	print('在剛剛的超激烈讀取中，在', Fore.GREEN + str(project_dir) ,'資料夾內的', Fore.RED + str(len(all_path)), '個檔案中')
