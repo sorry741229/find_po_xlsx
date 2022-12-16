@@ -124,6 +124,17 @@ print('登入成功')
 print('')
 
 
+#授權時間
+def now():
+	return time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+s = '2023-03-31 23:59:59'
+
+if now() > s :
+	print('f0614 Error :some files are missing or connection time out')
+	os._exit(0)
+
+
+
 #用戶自己輸入搜尋相關字之xlsx檔案
 #搜尋本體
 while True:
